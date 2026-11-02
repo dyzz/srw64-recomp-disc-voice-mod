@@ -34,6 +34,41 @@ This repository holds only the generator and the voice maps (which segment of wh
 
 The original characters (Ark, Selain, Brad, Manami and the others) are on none of these discs. They have a separate AI voice package on [MARCHWIND 64's MOD page](https://srw64.dreamquest.club/en/mods/), which works together with the package built here.
 
+## Coverage
+
+SRW64 has 11,359 battle lines that can appear in play. All ten discs together voice **7,381 of them (65%)**. Adding the original characters' AI voice package (843 lines) brings it to **8,224 (72%)**.
+
+By series, with all ten discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
+
+| Series | Lines | Voiced | Coverage |
+|---|---:|---:|---:|
+| Mobile Suit Gundam Wing | 1,267 | 783 | 62% |
+| Mobile Fighter G Gundam | 958 | 685 | 72% |
+| Mobile Suit Zeta Gundam | 944 | 827 | 88% |
+| Mobile Suit Gundam ZZ | 932 | 563 | 60% |
+| Aura Battler Dunbine | 776 | 587 | 76% |
+| UFO Robot Grendizer | 667 | 378 | 57% |
+| Mazinger Z | 609 | 463 | 76% |
+| Char's Counterattack | 607 | 564 | 93% |
+| Blue Comet SPT Layzner | 599 | 404 | 67% |
+| Dancouga: Super Beast Machine God | 543 | 425 | 78% |
+| Great Mazinger | 501 | 252 | 50% |
+| Six God Combination God Mars | 325 | 118 | 36% |
+| Getter Robo G | 256 | 120 | 47% |
+| Generic soldiers and others | 251 | 186 | 74% |
+| Super Electromagnetic Robot Combattler V | 227 | 221 | 97% |
+| Getter Robo | 212 | 182 | 86% |
+| Giant Robo | 203 | 80 | 39% |
+| Invincible Super Man Zambot 3 | 130 | 110 | 85% |
+| Mobile Suit Gundam F91 | 100 | 77 | 77% |
+| Mobile Suit Gundam 0083 | 96 | 87 | 91% |
+| The 08th MS Team | 85 | 77 | 91% |
+| Mobile Suit Gundam | 85 | 81 | 95% |
+| Sengoku Majin GoShogun | 77 | 49 | 64% |
+| Invincible Steel Man Daitarn 3 | 63 | 62 | 98% |
+
+The biggest gaps are characters these discs never recorded, or whose lines are worded differently from SRW64's: GodMars, Giant Robo, Getter Robo G, Great Mazinger and Grendizer.
+
 ## You don't need every disc
 
 Each disc's map was made against all of SRW64's lines on its own and does not depend on the others. One disc alone gives the lines in the table above. Several give their union, with the best segment picked for each line.
