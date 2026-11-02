@@ -1,10 +1,14 @@
-[中文](README.md)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dyzz/srw64-recomp/main/web/public/brand/title-en.webp" alt="MARCHWIND64" width="560">
+</p>
 
-# srw64-recomp-disc-voices: battle voices from your discs
+<p align="center"><b>Battle voice MOD maker for <a href="https://github.com/dyzz/srw64-recomp">MARCHWIND 64 (srw64-recomp)</a></b></p>
 
-A companion tool to [srw64-recomp](https://github.com/dyzz/srw64-recomp).
+<p align="center">English · <a href="README.zh-Hans.md">简体中文</a></p>
 
-The battle lines of [MARCHWIND 64](https://github.com/dyzz/srw64-recomp) (a native port of Super Robot Taisen 64) were never voiced. This tool reads **your own** disc images of later, voiced Super Robot Taisen games, finds where the same character says the same line (or one with the same meaning), and builds a battle voice MOD (`.srw64mod`) the game plays in battle.
+# MARCHWIND 64 Disc Voice MOD Maker
+
+This is the official battle voice MOD tool of [srw64-recomp](https://github.com/dyzz/srw64-recomp), the MARCHWIND 64 project: a native port of Super Robot Taisen 64. The original game's battle lines were never voiced. This tool reads **your own** disc images of later, voiced Super Robot Taisen games, finds where the same character says the same line (or one with the same meaning), and builds a battle voice MOD (`.srw64mod`) that MARCHWIND 64 plays in battle.
 
 This repository holds only the generator and the voice maps (which segment of which disc speaks each SRW64 line, with checksums to verify it). **It contains no voices and no game data.** The package you build is for your own use; please do not share it.
 

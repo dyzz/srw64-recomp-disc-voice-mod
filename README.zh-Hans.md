@@ -1,10 +1,14 @@
-[English](README.en.md)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dyzz/srw64-recomp/main/web/public/brand/title-zh.webp" alt="三月风64" width="560">
+</p>
 
-# srw64-recomp-disc-voices：光盘战斗语音生成器
+<p align="center"><b><a href="https://github.com/dyzz/srw64-recomp">三月风64（srw64-recomp）</a>的战斗语音 MOD 制作工具</b></p>
 
-[srw64-recomp](https://github.com/dyzz/srw64-recomp) 的配套工具。
+<p align="center"><a href="README.md">English</a> · 简体中文</p>
 
-[MARCHWIND 64](https://github.com/dyzz/srw64-recomp)（超级机器人大战 64 的原生移植）的战斗台词原本没有语音。这个工具读**你自己的**光盘镜像，从后来几作有语音的超级机器人大战里，把同一个角色说同一句（或意思相同的一句）的语音找出来，生成一个战斗语音 MOD（`.srw64mod`），装进游戏后战斗时会播放。
+# 三月风64 光盘语音 MOD 制作工具
+
+这是 [srw64-recomp](https://github.com/dyzz/srw64-recomp)（三月风64，超级机器人大战 64 的原生移植）官方的战斗语音 MOD 制作工具。原版的战斗台词没有语音。这个工具读**你自己的**光盘镜像，从后来几作有语音的超级机器人大战里，把同一个角色说同一句（或意思相同的一句）的语音找出来，生成一个战斗语音 MOD（`.srw64mod`），装进三月风64 后战斗时会播放。
 
 仓库里只有生成程序和对照表（哪句 64 台词用哪张盘的哪段语音，以及核对用的校验值），**不含任何语音或游戏数据**。生成的包只供你自己使用，请不要分发。
 
@@ -28,7 +32,7 @@
 - .chd 需要 MAME 的 `chdman` 在 PATH 里。两张 PSP 盘的 ATRAC3plus 语音需要 `ffmpeg`。
 - 镜像要和做对照表的那一版一致。工具会逐段核对校验值，对不上的句子跳过。
 
-原创人物（阿克、塞蕾茵、布拉德、玛娜米等）不在这些光盘里。他们的语音另有一个 AI 语音包，在 [MARCHWIND 64 的 MOD 页](https://srw64.dreamquest.club/zh/mods/)，可以和这里生成的包同时装。
+原创人物（阿克、塞蕾茵、布拉德、玛娜米等）不在这些光盘里。他们的语音另有一个 AI 语音包，在 [三月风64 的 MOD 页](https://srw64.dreamquest.club/zh/mods/)，可以和这里生成的包同时装。
 
 ## 没有全部光盘时
 
@@ -62,7 +66,7 @@ python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).is
 
 一次可以给多张盘，合成一个包。同一句几张盘都有时，优先用原句一致的那张，再按给出的先后。十张大约两三分钟。
 
-结果在 `out/srw64.battle-voices-disc-1.0.0.srw64mod`，十张约 135 MB。在游戏的 MOD 页安装这个文件即可，需要 MARCHWIND 64 0.5.2 以上。
+结果在 `out/srw64.battle-voices-disc-1.0.0.srw64mod`，十张约 135 MB。在游戏的 MOD 页安装这个文件即可，需要三月风64 0.5.2 以上。
 
 常用参数：
 
