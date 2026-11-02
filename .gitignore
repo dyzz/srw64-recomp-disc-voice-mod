@@ -1,0 +1,5 @@
+__pycache__/
+out/
+*.srw64mod
+psp/pspdecrypt/
+psp/bin/
