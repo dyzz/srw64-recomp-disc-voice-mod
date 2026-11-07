@@ -5,7 +5,7 @@
         "Super Robot Taisen Alpha (Japan).cue" -o out
 
 Reads each image (.iso; PS1 discs as .bin/.cue, .img or a raw 2352-byte .iso, whose XA voices a 2048-byte
-.iso cannot hold; .chd through MAME's chdman; ATRAC3plus voices need ffmpeg; a PSP game whose data is
+.iso cannot hold; GameCube discs as .iso, .gcm or Dolphin's .rvz; .chd through MAME's chdman; ATRAC3plus voices need ffmpeg; a PSP game whose data is
 encrypted needs the tools psp/build.sh builds), finds which game it is by the voice maps in
 maps/, checks every voice segment it needs against the map's checksum, and writes
 <out>/<id>-<version>.srw64mod with audio/voice/battle/<record>.ogg (Ogg Vorbis), every
@@ -36,6 +36,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import clips  # noqa: E402
+import gamecube  # noqa: E402
 import psx  # noqa: E402
 
 SECTOR = 2048
@@ -135,6 +136,8 @@ def open_image(path: Path, scratch: Path):
     """An image's root files: a 2048-byte ISO (PS2, PSP), or whole 2352-byte sectors (PS1: bin/cue, img,
     a raw .iso; a .chd is first turned back into one by MAME's chdman)."""
     suffix = path.suffix.lower()
+    if suffix == ".rvz":
+        return gamecube.GameCube(gamecube.Rvz(path))
     if suffix == ".cue":
         return psx.RawImage(psx.bin_of_cue(path))
     if suffix == ".chd":
@@ -148,6 +151,8 @@ def open_image(path: Path, scratch: Path):
         subprocess.run([chdman, "extractcd" if cd else "extractdvd", "-i", str(path), "-o", str(out), "-f"],
                        check=True, capture_output=True)
         return open_image(out, scratch)
+    if gamecube.is_gamecube(path):
+        return gamecube.GameCube(gamecube.Plain(path))
     if psx.is_raw(path):
         return psx.RawImage(path)
     return Iso(path)
@@ -156,6 +161,8 @@ def open_image(path: Path, scratch: Path):
 def boot_file(img) -> tuple[str, bool]:
     """The executable SYSTEM.CNF starts (a PSP disc: its PARAM.SFO, which holds the disc ID), and whether the disc
     is a PS1 one (BOOT, not PS2's BOOT2)."""
+    if isinstance(img, gamecube.GameCube):
+        return img.game_id.upper(), False
     if "PSP_GAME/PARAM.SFO" in getattr(img, "files", {}):
         return img.read("PSP_GAME/PARAM.SFO").decode("ascii", "replace").upper(), False
     cnf = img.read("SYSTEM.CNF").decode("ascii", "replace") if "SYSTEM.CNF" in img.files else ""
@@ -176,7 +183,7 @@ class Source:
                 img.decrypt(name, kind)
         self.img, self.map, self.path = img, vmap, path
         self.format, self.audio, self.rate = a["format"], a["file"], a["rate"]
-        if "groups" not in idx and "streams" not in idx and "people" not in idx and self.format not in ("at3p", "spu"):
+        if "groups" not in idx and "streams" not in idx and "people" not in idx and self.format not in ("at3p", "spu", "dsp"):
             self.index = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 4), dtype="<u4").astype(np.int64)
         if self.format == "s16le":
             self.unit = idx["unit"]
@@ -201,6 +208,9 @@ class Source:
             t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 16), dtype="<u4").astype(np.int64)
             t = t.reshape(idx["entries"], 4)
             self.offsets, self.sizes = t[:, 2], t[:, 0]
+        elif self.format == "dsp":   # GC: big-endian (offset, size) per clip, each a DSP file with its header
+            t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 8), dtype=">u4").astype(np.int64).reshape(-1, 2)
+            self.offsets, self.sizes = t[:, 0], t[:, 1]
         else:   # first sector of each XA file (新 spreads its voices over several)
             self.xa_lbas = [img.entry(f)[0] for f in a.get("files", [self.audio])]
         if "groups" in idx:   # F完結編 (6-byte entries), コンプリートボックス (5-byte), found through group starts
@@ -230,7 +240,7 @@ class Source:
         if self.format == "s16le":
             start, end = self.index[n] * self.unit, self.index[n + 1] * self.unit
             return self.img.read(self.audio, int(start), int(end - start))
-        if self.format in ("at3p", "spu"):
+        if self.format in ("at3p", "spu", "dsp"):
             return self.img.read(self.audio, int(self.offsets[n]), int(self.sizes[n]))
         return b"".join(self._xa_sectors(n))
 
@@ -243,6 +253,8 @@ class Source:
             return np.frombuffer(pcm, dtype="<i2")
         if self.format == "spu":
             return psx.spu_decode(self.stored(n))
+        if self.format == "dsp":
+            return gamecube.dsp_decode(self.stored(n))
         return psx.xa_decode(self._xa_sectors(n))
 
     def check(self, entry: dict) -> bool:
@@ -307,7 +319,7 @@ def manifest(sources: list[Source]) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("images", nargs="+", type=Path, help="disc images (.iso or .chd), the preferred one first")
+    parser.add_argument("images", nargs="+", type=Path, help="disc images (.iso, .cue, .rvz or .chd), the preferred one first")
     parser.add_argument("-o", "--out", type=Path, default=ROOT / "out", help="where the package goes (default out/)")
     parser.add_argument("--loudness", type=float, default=clips.TARGET_DBFS,
                         help=f"spoken loudness of every line in dBFS (default {clips.TARGET_DBFS:g}, SRW64's loud battle effects)")
@@ -350,6 +362,6 @@ def main(argv: list[str] | None = None) -> int:
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (ValueError, MissingTool) as error:   # an image this tool cannot use: say why, no traceback
+    except (ValueError, RuntimeError) as error:   # an image this tool cannot use: say why, no traceback
         print(f"error: {error}", file=sys.stderr)
         sys.exit(1)

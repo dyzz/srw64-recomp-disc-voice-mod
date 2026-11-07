@@ -20,6 +20,7 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Super Robot Taisen Alpha | SLPS-02636 | PS1 | .bin/.cue, .chd | 3,640 |
 | Super Robot Taisen A PORTABLE | ULJS-00143 | PSP | .iso (plus ffmpeg) | 3,205 |
 | 3rd Super Robot Taisen Alpha | SLPS-25537 | PS2 | .iso | 2,592 |
+| Super Robot Taisen GC | DOL-GRWJ-JPN | GameCube | .iso, .gcm, .rvz | 2,567 |
 | 2nd Super Robot Taisen Alpha | SLPS-25228 | PS2 | .iso | 2,531 |
 | Super Robot Taisen F Kanketsu-hen | SLPS-01924 | PS1 | .bin/.cue, .chd | 2,381 |
 | Super Robot Taisen Complete Box (Disc 1) | SLPS-02070 | PS1 | .bin/.cue, .chd | 2,309 |
@@ -27,42 +28,42 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Shin Super Robot Taisen | SLPS-00550 | PS1 | .bin/.cue, .chd | 1,514 |
 | 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 571 |
 
-- The discs overlap a lot: all ten together make about 7,380 lines. Any one disc works on its own.
+- The discs overlap a lot: all eleven together make about 7,710 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
-- A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
+- Dolphin's .rvz is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
 - An image must be the release the map was made from. Every segment is checked against its checksum, and lines that differ are skipped.
 
 The original characters (Ark, Selain, Brad, Manami and the others) are on none of these discs. They have a separate AI voice package on [MARCHWIND 64's MOD page](https://srw64.dreamquest.club/en/mods/), which works together with the package built here.
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All ten discs together voice **7,381 of them (65%)**. Adding the original characters' AI voice package (843 lines) brings it to **8,224 (72%)**.
+SRW64 has 11,359 battle lines that can appear in play. All eleven discs together voice **7,713 of them (68%)**. Adding the original characters' AI voice package (843 lines) brings it to **8,556 (75%)**.
 
-By series, with all ten discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
+By series, with all eleven discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
 | Series | Lines | Voiced | Coverage |
 |---|---:|---:|---:|
 | Mobile Suit Gundam Wing | 1,267 | 783 | 62% |
 | Mobile Fighter G Gundam | 958 | 685 | 72% |
-| Mobile Suit Zeta Gundam | 944 | 827 | 88% |
-| Mobile Suit Gundam ZZ | 932 | 563 | 60% |
+| Mobile Suit Zeta Gundam | 944 | 832 | 88% |
+| Mobile Suit Gundam ZZ | 932 | 596 | 64% |
 | Aura Battler Dunbine | 776 | 587 | 76% |
 | UFO Robot Grendizer | 667 | 378 | 57% |
-| Mazinger Z | 609 | 463 | 76% |
-| Char's Counterattack | 607 | 564 | 93% |
-| Blue Comet SPT Layzner | 599 | 404 | 67% |
-| Dancouga: Super Beast Machine God | 543 | 425 | 78% |
-| Great Mazinger | 501 | 252 | 50% |
+| Mazinger Z | 609 | 496 | 81% |
+| Char's Counterattack | 607 | 575 | 95% |
+| Blue Comet SPT Layzner | 599 | 536 | 89% |
+| Dancouga: Super Beast Machine God | 543 | 498 | 92% |
+| Great Mazinger | 501 | 287 | 57% |
 | Six God Combination God Mars | 325 | 118 | 36% |
 | Getter Robo G | 256 | 120 | 47% |
-| Generic soldiers and others | 251 | 186 | 74% |
+| Generic soldiers and others | 251 | 188 | 75% |
 | Super Electromagnetic Robot Combattler V | 227 | 221 | 97% |
 | Getter Robo | 212 | 182 | 86% |
 | Giant Robo | 203 | 80 | 39% |
 | Invincible Super Man Zambot 3 | 130 | 110 | 85% |
 | Mobile Suit Gundam F91 | 100 | 77 | 77% |
 | Mobile Suit Gundam 0083 | 96 | 87 | 91% |
-| The 08th MS Team | 85 | 77 | 91% |
+| The 08th MS Team | 85 | 85 | 100% |
 | Mobile Suit Gundam | 85 | 81 | 95% |
 | Sengoku Majin GoShogun | 77 | 49 | 64% |
 | Invincible Steel Man Daitarn 3 | 63 | 62 | 98% |
@@ -79,16 +80,17 @@ To get the most lines from the fewest discs, look for them in this order:
 |---:|---|---:|---:|
 | 1 | IMPACT | 4,610 | 4,610 |
 | 2 | A PORTABLE | 1,155 | 5,765 |
-| 3 | Alpha | 615 | 6,380 |
-| 4 | Shin | 378 | 6,758 |
-| 5 | 3rd Alpha | 254 | 7,012 |
-| 6 | F Kanketsu-hen | 149 | 7,161 |
-| 7 | 2nd Z Hakai-hen | 90 | 7,251 |
-| 8 | MX | 70 | 7,321 |
-| 9 | Complete Box | 41 | 7,362 |
-| 10 | 2nd Alpha | 19 | 7,381 |
+| 3 | GC | 714 | 6,479 |
+| 4 | Alpha | 494 | 6,973 |
+| 5 | Shin | 238 | 7,211 |
+| 6 | F Kanketsu-hen | 150 | 7,361 |
+| 7 | 3rd Alpha | 139 | 7,500 |
+| 8 | 2nd Z Hakai-hen | 89 | 7,589 |
+| 9 | MX | 70 | 7,659 |
+| 10 | Complete Box | 35 | 7,694 |
+| 11 | 2nd Alpha | 19 | 7,713 |
 
-The first four already give over 90% of the total. The later ones mostly fill in a few characters: nearly all of 2nd Z Hakai-hen's lines are GodMars characters, and MX adds Kiral.
+The first four already give about 90% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, 2nd Z Hakai-hen brings GodMars, and MX adds Kiral.
 
 ## Usage
 
@@ -99,9 +101,9 @@ pip install -r requirements.txt
 python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).iso" "Super Robot Taisen Alpha (Japan).cue"
 ```
 
-Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All ten take two to three minutes.
+Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All eleven take a few minutes.
 
-The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 135 MB for all ten). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
+The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 140 MB for all eleven). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
 
 Options:
 
