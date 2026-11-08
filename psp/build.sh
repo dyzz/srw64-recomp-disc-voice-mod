@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds the two programs a PSP disc with encrypted data needs (第2次スーパーロボット大戦Z 破界篇) into psp/bin/:
+# Builds the two programs a PSP disc with encrypted data needs (第2次スーパーロボット大戦Z 破界篇, 再世篇) into psp/bin/:
 # pspdecrypt for its executable, and pgd_decrypt for its PGD data files. Both come from John-K/pspdecrypt
 # (GPL-3.0), which this downloads; this repository carries no keys or decryption code of its own.
 # Needs git, make, a C/C++ compiler, zlib and OpenSSL's libcrypto (macOS: Xcode command line tools and

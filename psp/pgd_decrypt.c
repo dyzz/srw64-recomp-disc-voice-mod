@@ -1,6 +1,6 @@
 /* pgd_decrypt <in> <out>: a PSP PGD file (a UMD game's encrypted data) decrypted with the key its own MAC
  * gives, through libkirk's amctrl from pspdecrypt (https://github.com/John-K/pspdecrypt). psp/build.sh builds it;
- * make_voice_pack.py runs it on the voice files of 第2次スーパーロボット大戦Z 破界篇.
+ * make_voice_pack.py runs it on the voice files of 第2次スーパーロボット大戦Z 破界篇 and 再世篇.
  * SPDX-License-Identifier: GPL-3.0-or-later */
 #include <stdio.h>
 #include <stdlib.h>

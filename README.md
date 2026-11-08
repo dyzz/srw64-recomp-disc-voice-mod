@@ -29,9 +29,10 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Super Robot Taisen Alpha Gaiden (Rev 1) | SLPS-03148 | PS1 | .bin/.cue, .chd | 1,899 |
 | Super Robot Taisen Z | SLPS-25887, SLPS-73270 (The Best) | PS2 | .iso | 1,677 |
 | Shin Super Robot Taisen | SLPS-00550 | PS1 | .bin/.cue, .chd | 1,514 |
+| 2nd Super Robot Taisen Z Saisei-hen | ULJS-00460 | PSP | .iso (plus ffmpeg and the decryption tools) | 742 |
 | 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 571 |
 
-- The discs overlap a lot: all fourteen together make about 8,220 lines. Any one disc works on its own.
+- The discs overlap a lot: all fifteen together make about 8,350 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
 - Dolphin's .rvz is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
 - Z's original release and its PlayStation 2 the Best reprint each have a map; the Best changed five of the clips, so their lines are only in the original's map.
@@ -41,24 +42,24 @@ The original characters (Ark, Selain, Brad, Manami and the others) are on none o
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All fourteen discs together voice **8,227 of them (72%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,070 (80%)**.
+SRW64 has 11,359 battle lines that can appear in play. All fifteen discs together voice **8,354 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,197 (81%)**.
 
-By series, with all fourteen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
+By series, with all fifteen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
 | Series | Lines | Voiced | Coverage |
 |---|---:|---:|---:|
-| Mobile Suit Gundam Wing | 1,267 | 951 | 75% |
+| Mobile Suit Gundam Wing | 1,267 | 1,024 | 81% |
 | Mobile Fighter G Gundam | 958 | 701 | 73% |
-| Mobile Suit Zeta Gundam | 944 | 879 | 93% |
+| Mobile Suit Zeta Gundam | 944 | 880 | 93% |
 | Mobile Suit Gundam ZZ | 932 | 612 | 66% |
 | Aura Battler Dunbine | 776 | 639 | 82% |
 | UFO Robot Grendizer | 667 | 440 | 66% |
 | Mazinger Z | 609 | 521 | 86% |
-| Char's Counterattack | 607 | 588 | 97% |
+| Char's Counterattack | 607 | 589 | 97% |
 | Blue Comet SPT Layzner | 599 | 536 | 89% |
-| Dancouga: Super Beast Machine God | 543 | 511 | 94% |
+| Dancouga: Super Beast Machine God | 543 | 516 | 95% |
 | Great Mazinger | 501 | 315 | 63% |
-| Six God Combination God Mars | 325 | 118 | 36% |
+| Six God Combination God Mars | 325 | 165 | 51% |
 | Getter Robo G | 256 | 141 | 55% |
 | Generic soldiers and others | 251 | 189 | 75% |
 | Super Electromagnetic Robot Combattler V | 227 | 222 | 98% |
@@ -90,14 +91,15 @@ To get the most lines from the fewest discs, look for them in this order:
 | 6 | Shin | 232 | 7,491 |
 | 7 | Alpha Gaiden | 211 | 7,702 |
 | 8 | Z | 183 | 7,885 |
-| 9 | 3rd Alpha | 102 | 7,987 |
-| 10 | 2nd Z Hakai-hen | 89 | 8,076 |
-| 11 | MX | 64 | 8,140 |
-| 12 | Complete Box | 35 | 8,175 |
-| 13 | F Kanketsu-hen | 33 | 8,208 |
-| 14 | 2nd Alpha | 19 | 8,227 |
+| 9 | 2nd Z Saisei-hen | 157 | 8,042 |
+| 10 | 3rd Alpha | 86 | 8,128 |
+| 11 | 2nd Z Hakai-hen | 75 | 8,203 |
+| 12 | MX | 64 | 8,267 |
+| 13 | Complete Box | 35 | 8,302 |
+| 14 | F Kanketsu-hen | 33 | 8,335 |
+| 15 | 2nd Alpha | 19 | 8,354 |
 
-The first four already give about 85% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen brings GodMars, and MX adds Kiral.
+The first four already give about 83% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen and Saisei-hen bring GodMars, and MX adds Kiral.
 
 ## Usage
 
@@ -108,18 +110,18 @@ pip install -r requirements.txt
 python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).iso" "Super Robot Taisen Alpha (Japan).cue"
 ```
 
-Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All fourteen take a few minutes.
+Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All fifteen take a few minutes.
 
-The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 155 MB for all fourteen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
+The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 160 MB for all fifteen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
 
 Options:
 
 - `-o DIR`: where the package goes (default `out/`).
 - `--loudness -15`: spoken loudness of every line in dBFS; the default matches the game's loud battle effects. The game's settings also have a voice volume.
 
-### 2nd Z Hakai-hen: install the decryption tools first
+### 2nd Z Hakai-hen and Saisei-hen: install the decryption tools first
 
-This disc's program and data are encrypted. Run this once:
+These two discs' programs and data are encrypted. Run this once:
 
 ```bash
 sh psp/build.sh
