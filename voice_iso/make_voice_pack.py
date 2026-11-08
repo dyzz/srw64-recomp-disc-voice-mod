@@ -183,7 +183,7 @@ class Source:
                 img.decrypt(name, kind)
         self.img, self.map, self.path = img, vmap, path
         self.format, self.audio, self.rate = a["format"], a["file"], a["rate"]
-        if "groups" not in idx and "streams" not in idx and "people" not in idx and self.format not in ("at3p", "spu", "dsp"):
+        if "groups" not in idx and "streams" not in idx and "people" not in idx and "owners" not in idx and self.format not in ("at3p", "spu", "dsp"):
             self.index = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 4), dtype="<u4").astype(np.int64)
         if self.format == "s16le":
             self.unit = idx["unit"]
@@ -218,10 +218,15 @@ class Source:
             size = idx.get("size", 6)
             self.table = psx.GroupTable(img.read(idx["file"], idx["offset"], idx["entries"] * size),
                                         img.read(idx["file"], idx["groups"]["offset"], idx["groups"]["count"] * 2), size)
+        if "owners" in idx:   # 第4次S: the tables are in its compressed battle overlay
+            self.owners = psx.OwnerTable(psx.lz_decompress(img.read(idx["file"])), idx["load"], idx["owners"], idx["tables"])
         if "streams" in idx:   # 新: a stream (file, channel) per voice owner, with position tables
             self.streams = psx.StreamTable(img.read(idx["file"]), idx["streams"], idx["pointers"])
 
     def _xa_sectors(self, v: int) -> list[bytes]:
+        if hasattr(self, "owners"):
+            f, fs = self.owners.find(v)
+            return [self.img.raw(self.xa_lbas[f] + s)[24:24 + 2304] for s in fs]
         if hasattr(self, "streams"):
             f, fs = self.streams.find(v)
             return [self.img.raw(self.xa_lbas[f] + s)[24:24 + 2304] for s in fs]

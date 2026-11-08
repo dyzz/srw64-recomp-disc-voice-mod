@@ -209,3 +209,65 @@ class StreamTable:
             return None
         a, b = struct.unpack_from('<2H', self.exe, at)
         return (f, [k * 16 + c for k in range(a, b)]) if 0 < b - a < 2000 else None
+
+
+def lz_decompress(b: bytes) -> bytes:
+    """第4次S's LZ (SLPS_001.96 0x800C345C): flag bits high first from flag bytes; 1 = a literal byte; 01 = a 13-bit
+    back offset and a 3-bit length (+2; 0: the next byte n, 0 ends, else n + 1); 00 = two bits of length (+2) and an
+    8-bit back offset."""
+    out, i, flags, left = bytearray(), 0, 0, 0
+
+    def bit() -> int:
+        nonlocal flags, left, i
+        if left == 0:
+            flags, left = b[i], 8
+            i += 1
+        left -= 1
+        return (flags >> left) & 1
+
+    while True:
+        if bit():
+            out.append(b[i])
+            i += 1
+            continue
+        if bit():
+            w = b[i] << 8 | b[i + 1]
+            i += 2
+            back, n = (w >> 3) - 0x2000, w & 7
+            if n:
+                n += 2
+            else:
+                n = b[i]
+                i += 1
+                if n == 0:
+                    return bytes(out)
+                n += 1
+        else:
+            n = (bit() << 1 | bit()) + 2
+            back = b[i] - 0x100
+            i += 1
+        p = len(out) + back
+        for k in range(n):
+            out.append(out[p + k])
+
+
+class OwnerTable:
+    """第4次S's voices, from its battle overlay (loaded at `load`): speaker p = (v >> 8) & 0x7f, line n = v & 0xff;
+    p's 3 bytes at `owners` are (XA file, channel, volume); u32 `tables` + 4 * file points to 16 channel pointers,
+    each a u16 table of file sectors: line n from entry n to n + 1, the channel's every 16th sector."""
+
+    def __init__(self, overlay: bytes, load: int, owners: int, tables: int):
+        self.b, self.load, self.owners, self.tables = overlay, load, owners, tables
+
+    def _u32(self, ram: int) -> int:
+        return struct.unpack_from('<I', self.b, ram - self.load)[0]
+
+    def find(self, v: int):
+        """(file number, [file-relative sectors]) of voice v, or None."""
+        p, n = (v >> 8) & 0x7F, v & 0xFF
+        f, c = self.b[self.owners - self.load + 3 * p], self.b[self.owners - self.load + 3 * p + 1]
+        if f > 2:
+            return None
+        at = self._u32(self._u32(self.tables + 4 * f) + 4 * c) - self.load + 2 * n
+        a, e = struct.unpack_from('<2H', self.b, at)
+        return (f, [s for s in range(a, e) if s % 16 == c]) if 0 < e - a < 4000 else None

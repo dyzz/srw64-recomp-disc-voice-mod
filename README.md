@@ -29,10 +29,11 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Super Robot Taisen Alpha Gaiden (Rev 1) | SLPS-03148 | PS1 | .bin/.cue, .chd | 1,899 |
 | Super Robot Taisen Z | SLPS-25887, SLPS-73270 (The Best) | PS2 | .iso | 1,677 |
 | Shin Super Robot Taisen | SLPS-00550 | PS1 | .bin/.cue, .chd | 1,514 |
+| 4th Super Robot Taisen S (Rev 1) | SLPS-00196 | PS1 | .bin/.cue, .chd | 896 |
 | 2nd Super Robot Taisen Z Saisei-hen | ULJS-00460 | PSP | .iso (plus ffmpeg and the decryption tools) | 742 |
 | 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 571 |
 
-- The discs overlap a lot: all fifteen together make about 8,350 lines. Any one disc works on its own.
+- The discs overlap a lot: all sixteen together make about 8,360 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
 - Dolphin's .rvz is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
 - Z's original release and its PlayStation 2 the Best reprint each have a map; the Best changed five of the clips, so their lines are only in the original's map.
@@ -42,9 +43,9 @@ The original characters (Ark, Selain, Brad, Manami and the others) are on none o
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All fifteen discs together voice **8,354 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,197 (81%)**.
+SRW64 has 11,359 battle lines that can appear in play. All sixteen discs together voice **8,362 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,205 (81%)**.
 
-By series, with all fifteen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
+By series, with all sixteen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
 | Series | Lines | Voiced | Coverage |
 |---|---:|---:|---:|
@@ -58,7 +59,7 @@ By series, with all fifteen discs (the 846 lines of the original characters are 
 | Char's Counterattack | 607 | 589 | 97% |
 | Blue Comet SPT Layzner | 599 | 536 | 89% |
 | Dancouga: Super Beast Machine God | 543 | 516 | 95% |
-| Great Mazinger | 501 | 315 | 63% |
+| Great Mazinger | 501 | 316 | 63% |
 | Six God Combination God Mars | 325 | 165 | 51% |
 | Getter Robo G | 256 | 141 | 55% |
 | Generic soldiers and others | 251 | 189 | 75% |
@@ -66,11 +67,11 @@ By series, with all fifteen discs (the 846 lines of the original characters are 
 | Getter Robo | 212 | 206 | 97% |
 | Giant Robo | 203 | 80 | 39% |
 | Invincible Super Man Zambot 3 | 130 | 118 | 91% |
-| Mobile Suit Gundam F91 | 100 | 86 | 86% |
-| Mobile Suit Gundam 0083 | 96 | 90 | 94% |
+| Mobile Suit Gundam F91 | 100 | 87 | 87% |
+| Mobile Suit Gundam 0083 | 96 | 91 | 95% |
 | The 08th MS Team | 85 | 85 | 100% |
 | Mobile Suit Gundam | 85 | 82 | 96% |
-| Sengoku Majin GoShogun | 77 | 54 | 70% |
+| Sengoku Majin GoShogun | 77 | 59 | 77% |
 | Invincible Steel Man Daitarn 3 | 63 | 63 | 100% |
 
 The biggest gaps are characters these discs never recorded, or whose lines are worded differently from SRW64's: GodMars, Giant Robo, Getter Robo G, Great Mazinger and Grendizer.
@@ -98,6 +99,7 @@ To get the most lines from the fewest discs, look for them in this order:
 | 13 | Complete Box | 35 | 8,302 |
 | 14 | F Kanketsu-hen | 33 | 8,335 |
 | 15 | 2nd Alpha | 19 | 8,354 |
+| 16 | 4th S | 8 | 8,362 |
 
 The first four already give about 83% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen and Saisei-hen bring GodMars, and MX adds Kiral.
 
@@ -110,9 +112,9 @@ pip install -r requirements.txt
 python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).iso" "Super Robot Taisen Alpha (Japan).cue"
 ```
 
-Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All fifteen take a few minutes.
+Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All sixteen take a few minutes.
 
-The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 160 MB for all fifteen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
+The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 160 MB for all sixteen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
 
 Options:
 
