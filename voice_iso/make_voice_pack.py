@@ -204,10 +204,11 @@ class Source:
             self.sizes = np.diff(self.offsets) if stride == 4 else t[:, 2]
             if not shutil.which("ffmpeg"):
                 raise ValueError(f"{path.name}: its voices are ATRAC3plus, which needs ffmpeg on the PATH")
-        elif self.format == "spu":   # 第3次α: SPU ADPCM clips; 16-byte entries (size, 0, byte offset, rate)
-            t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 16), dtype="<u4").astype(np.int64)
-            t = t.reshape(idx["entries"], 4)
-            self.offsets, self.sizes = t[:, 2], t[:, 0]
+        elif self.format == "spu":   # SPU ADPCM clips; 第3次α: 16-byte entries (size, 0, byte offset, rate), Z: (size, byte offset)
+            stride = idx.get("stride", 16)
+            t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * stride), dtype="<u4").astype(np.int64)
+            t = t.reshape(idx["entries"], stride // 4)
+            self.offsets, self.sizes = (t[:, 2] if stride == 16 else t[:, 1]), t[:, 0]
         elif self.format == "dsp":   # GC: big-endian (offset, size) per clip, each a DSP file with its header
             t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 8), dtype=">u4").astype(np.int64).reshape(-1, 2)
             self.offsets, self.sizes = t[:, 0], t[:, 1]
