@@ -5,7 +5,7 @@
         "Super Robot Taisen Alpha (Japan).cue" -o out
 
 Reads each image (.iso; PS1 discs as .bin/.cue, .img or a raw 2352-byte .iso, whose XA voices a 2048-byte
-.iso cannot hold; GameCube discs as .iso, .gcm or Dolphin's .rvz; .chd through MAME's chdman; ATRAC3plus voices need ffmpeg; a PSP game whose data is
+.iso cannot hold; GameCube discs as .iso, .gcm or Dolphin's .rvz, Wii ones as .rvz; .chd through MAME's chdman; ATRAC3plus voices need ffmpeg; a PSP game whose data is
 encrypted needs the tools psp/build.sh builds), finds which game it is by the voice maps in
 maps/, checks every voice segment it needs against the map's checksum, and writes
 <out>/<id>-<version>.srw64mod with audio/voice/battle/<record>.ogg (Ogg Vorbis), every
@@ -183,7 +183,7 @@ class Source:
                 img.decrypt(name, kind)
         self.img, self.map, self.path = img, vmap, path
         self.format, self.audio, self.rate = a["format"], a["file"], a["rate"]
-        if "groups" not in idx and "streams" not in idx and "people" not in idx and "owners" not in idx and self.format not in ("at3p", "spu", "dsp"):
+        if "groups" not in idx and "streams" not in idx and "people" not in idx and "owners" not in idx and self.format not in ("at3p", "spu", "dsp", "adx"):
             self.index = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 4), dtype="<u4").astype(np.int64)
         if self.format == "s16le":
             self.unit = idx["unit"]
@@ -209,6 +209,9 @@ class Source:
             t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * stride), dtype="<u4").astype(np.int64)
             t = t.reshape(idx["entries"], stride // 4)
             self.offsets, self.sizes = (t[:, 2] if stride == 16 else t[:, 1]), t[:, 0]
+        elif self.format == "adx":   # NEO: a CRI AFS archive, (offset, size) per clip after 'AFS' and a count, each an ADX file
+            t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 8), dtype="<u4").astype(np.int64).reshape(-1, 2)
+            self.offsets, self.sizes = t[:, 0], t[:, 1]
         elif self.format == "dsp":   # GC: big-endian (offset, size) per clip, each a DSP file with its header
             t = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 8), dtype=">u4").astype(np.int64).reshape(-1, 2)
             self.offsets, self.sizes = t[:, 0], t[:, 1]
@@ -246,7 +249,7 @@ class Source:
         if self.format == "s16le":
             start, end = self.index[n] * self.unit, self.index[n + 1] * self.unit
             return self.img.read(self.audio, int(start), int(end - start))
-        if self.format in ("at3p", "spu", "dsp"):
+        if self.format in ("at3p", "spu", "dsp", "adx"):
             return self.img.read(self.audio, int(self.offsets[n]), int(self.sizes[n]))
         return b"".join(self._xa_sectors(n))
 
@@ -261,6 +264,8 @@ class Source:
             return psx.spu_decode(self.stored(n))
         if self.format == "dsp":
             return gamecube.dsp_decode(self.stored(n))
+        if self.format == "adx":
+            return gamecube.adx_decode(self.stored(n))
         return psx.xa_decode(self._xa_sectors(n))
 
     def check(self, entry: dict) -> bool:
