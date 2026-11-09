@@ -34,7 +34,7 @@ This repository holds only the generator and the voice maps (which segment of wh
 | 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 726 |
 | Super Robot Taisen NEO | RVL-RRWJ-JPN | Wii | .rvz | 291 |
 
-- The discs overlap a lot: all seventeen together make about 8,470 lines. Any one disc works on its own.
+- The discs overlap a lot: all seventeen together make about 8,640 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
 - Dolphin's .rvz (GameCube, and Wii, whose game partition RVZ keeps decrypted) is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
 - Z's original release and its PlayStation 2 the Best reprint each have a map. About 960 clips are stored at 24000 Hz on the original and play 8% slow there; the Best fixed them, and the tool brings the original's to the right speed.
@@ -44,23 +44,23 @@ The original characters (Ark, Selain, Brad, Manami and the others) are on none o
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,471 of them (75%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,314 (82%)**.
+SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,649 of them (76%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,492 (84%)**.
 
 By series, with all seventeen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
 | Series | Lines | Voiced | Coverage |
 |---|---:|---:|---:|
-| Mobile Suit Gundam Wing | 1,267 | 1,026 | 81% |
-| Mobile Fighter G Gundam | 958 | 701 | 73% |
+| Mobile Suit Gundam Wing | 1,267 | 1,044 | 82% |
+| Mobile Fighter G Gundam | 958 | 788 | 82% |
 | Mobile Suit Zeta Gundam | 944 | 880 | 93% |
 | Mobile Suit Gundam ZZ | 932 | 612 | 66% |
-| Aura Battler Dunbine | 776 | 639 | 82% |
+| Aura Battler Dunbine | 776 | 682 | 88% |
 | UFO Robot Grendizer | 667 | 465 | 70% |
 | Mazinger Z | 609 | 521 | 86% |
 | Char's Counterattack | 607 | 589 | 97% |
 | Blue Comet SPT Layzner | 599 | 536 | 89% |
 | Dancouga: Super Beast Machine God | 543 | 516 | 95% |
-| Great Mazinger | 501 | 341 | 68% |
+| Great Mazinger | 501 | 371 | 74% |
 | Six God Combination God Mars | 325 | 179 | 55% |
 | Getter Robo G | 256 | 181 | 71% |
 | Generic soldiers and others | 251 | 189 | 75% |
@@ -85,23 +85,23 @@ To get the most lines from the fewest discs, look for them in this order:
 
 | Order | Disc | New lines | Total |
 |---:|---|---:|---:|
-| 1 | IMPACT | 4,615 | 4,615 |
-| 2 | A PORTABLE | 1,155 | 5,770 |
-| 3 | GC | 734 | 6,504 |
-| 4 | Alpha | 494 | 6,998 |
-| 5 | Z | 298 | 7,296 |
-| 6 | F | 264 | 7,560 |
-| 7 | Shin | 230 | 7,790 |
-| 8 | Alpha Gaiden | 185 | 7,975 |
-| 9 | 2nd Z Saisei-hen | 169 | 8,144 |
-| 10 | 3rd Alpha | 86 | 8,230 |
-| 11 | 2nd Z Hakai-hen | 79 | 8,309 |
-| 12 | MX | 64 | 8,373 |
-| 13 | Complete Box | 35 | 8,408 |
-| 14 | F Kanketsu-hen | 33 | 8,441 |
-| 15 | 2nd Alpha | 19 | 8,460 |
-| 16 | 4th S | 8 | 8,468 |
-| 17 | NEO | 3 | 8,471 |
+| 1 | IMPACT | 4,675 | 4,675 |
+| 2 | A PORTABLE | 1,244 | 5,919 |
+| 3 | GC | 734 | 6,653 |
+| 4 | Alpha | 512 | 7,165 |
+| 5 | Z | 298 | 7,463 |
+| 6 | F | 275 | 7,738 |
+| 7 | Shin | 230 | 7,968 |
+| 8 | Alpha Gaiden | 185 | 8,153 |
+| 9 | 2nd Z Saisei-hen | 169 | 8,322 |
+| 10 | 3rd Alpha | 86 | 8,408 |
+| 11 | 2nd Z Hakai-hen | 79 | 8,487 |
+| 12 | MX | 64 | 8,551 |
+| 13 | Complete Box | 35 | 8,586 |
+| 14 | F Kanketsu-hen | 33 | 8,619 |
+| 15 | 2nd Alpha | 19 | 8,638 |
+| 16 | 4th S | 8 | 8,646 |
+| 17 | NEO | 3 | 8,649 |
 
 The first four already give about 83% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen and Saisei-hen bring GodMars, MX adds Kiral, and NEO three GoShogun lines.
 
