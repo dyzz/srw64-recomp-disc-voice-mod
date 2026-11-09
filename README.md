@@ -16,8 +16,8 @@ This repository holds only the generator and the voice maps (which segment of wh
 
 | Game | Serial | Platform | Image | Lines |
 |---|---|---|---|---:|
-| Super Robot Taisen IMPACT | SLPS-25104 | PS2 | .iso | 4,610 |
-| Super Robot Taisen Alpha | SLPS-02636 | PS1 | .bin/.cue, .chd | 3,640 |
+| Super Robot Taisen IMPACT | SLPS-25104 | PS2 | .iso | 4,615 |
+| Super Robot Taisen Alpha | SLPS-02636, SLPS-02528 (Limited Edition) | PS1 | .bin/.cue, .chd | 3,640 |
 | Super Robot Taisen A PORTABLE | ULJS-00143 | PSP | .iso (plus ffmpeg) | 3,205 |
 | 3rd Super Robot Taisen Alpha | SLPS-25537 | PS2 | .iso | 2,592 |
 | Super Robot Taisen GC | DOL-GRWJ-JPN | GameCube | .iso, .gcm, .rvz | 2,592 |
@@ -31,10 +31,10 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Shin Super Robot Taisen | SLPS-00550 | PS1 | .bin/.cue, .chd | 1,514 |
 | 4th Super Robot Taisen S (Rev 1) | SLPS-00196 | PS1 | .bin/.cue, .chd | 896 |
 | 2nd Super Robot Taisen Z Saisei-hen | ULJS-00460 | PSP | .iso (plus ffmpeg and the decryption tools) | 754 |
-| 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 571 |
+| 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 726 |
 | Super Robot Taisen NEO | RVL-RRWJ-JPN | Wii | .rvz | 291 |
 
-- The discs overlap a lot: all seventeen together make about 8,460 lines. Any one disc works on its own.
+- The discs overlap a lot: all seventeen together make about 8,470 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
 - Dolphin's .rvz (GameCube, and Wii, whose game partition RVZ keeps decrypted) is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
 - Z's original release and its PlayStation 2 the Best reprint each have a map. About 960 clips are stored at 24000 Hz on the original and play 8% slow there; the Best fixed them, and the tool brings the original's to the right speed.
@@ -44,13 +44,13 @@ The original characters (Ark, Selain, Brad, Manami and the others) are on none o
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,461 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,304 (82%)**.
+SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,471 of them (75%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,314 (82%)**.
 
 By series, with all seventeen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
 | Series | Lines | Voiced | Coverage |
 |---|---:|---:|---:|
-| Mobile Suit Gundam Wing | 1,267 | 1,024 | 81% |
+| Mobile Suit Gundam Wing | 1,267 | 1,026 | 81% |
 | Mobile Fighter G Gundam | 958 | 701 | 73% |
 | Mobile Suit Zeta Gundam | 944 | 880 | 93% |
 | Mobile Suit Gundam ZZ | 932 | 612 | 66% |
@@ -61,7 +61,7 @@ By series, with all seventeen discs (the 846 lines of the original characters ar
 | Blue Comet SPT Layzner | 599 | 536 | 89% |
 | Dancouga: Super Beast Machine God | 543 | 516 | 95% |
 | Great Mazinger | 501 | 341 | 68% |
-| Six God Combination God Mars | 325 | 171 | 53% |
+| Six God Combination God Mars | 325 | 179 | 55% |
 | Getter Robo G | 256 | 181 | 71% |
 | Generic soldiers and others | 251 | 189 | 75% |
 | Super Electromagnetic Robot Combattler V | 227 | 222 | 98% |
@@ -85,9 +85,9 @@ To get the most lines from the fewest discs, look for them in this order:
 
 | Order | Disc | New lines | Total |
 |---:|---|---:|---:|
-| 1 | IMPACT | 4,610 | 4,610 |
-| 2 | A PORTABLE | 1,155 | 5,765 |
-| 3 | GC | 739 | 6,504 |
+| 1 | IMPACT | 4,615 | 4,615 |
+| 2 | A PORTABLE | 1,155 | 5,770 |
+| 3 | GC | 734 | 6,504 |
 | 4 | Alpha | 494 | 6,998 |
 | 5 | Z | 298 | 7,296 |
 | 6 | F | 264 | 7,560 |
@@ -95,13 +95,13 @@ To get the most lines from the fewest discs, look for them in this order:
 | 8 | Alpha Gaiden | 185 | 7,975 |
 | 9 | 2nd Z Saisei-hen | 169 | 8,144 |
 | 10 | 3rd Alpha | 86 | 8,230 |
-| 11 | 2nd Z Hakai-hen | 69 | 8,299 |
-| 12 | MX | 64 | 8,363 |
-| 13 | Complete Box | 35 | 8,398 |
-| 14 | F Kanketsu-hen | 33 | 8,431 |
-| 15 | 2nd Alpha | 19 | 8,450 |
-| 16 | 4th S | 8 | 8,458 |
-| 17 | NEO | 3 | 8,461 |
+| 11 | 2nd Z Hakai-hen | 79 | 8,309 |
+| 12 | MX | 64 | 8,373 |
+| 13 | Complete Box | 35 | 8,408 |
+| 14 | F Kanketsu-hen | 33 | 8,441 |
+| 15 | 2nd Alpha | 19 | 8,460 |
+| 16 | 4th S | 8 | 8,468 |
+| 17 | NEO | 3 | 8,471 |
 
 The first four already give about 83% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen and Saisei-hen bring GodMars, MX adds Kiral, and NEO three GoShogun lines.
 
