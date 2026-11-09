@@ -15,6 +15,13 @@ def trimmed(a: np.ndarray) -> np.ndarray:
     return a[:nz[-1] + 1] if len(nz) else a
 
 
+def resampled(a: np.ndarray, rate: int, to: int) -> np.ndarray:
+    """A segment stored at another rate than its disc's, brought to the disc's (by its spectrum, so nothing aliases)."""
+    n = round(len(a) * to / rate)
+    x = np.fft.irfft(np.fft.rfft(a.astype(float))[:n // 2 + 1], n) * n / len(a)
+    return np.clip(np.rint(x), -32768, 32767).astype(np.int16)
+
+
 def speech(a: np.ndarray, rate: int = RATE) -> list[tuple[int, int]]:
     """Voiced spans as sample ranges: 20 ms envelope over 6% of the peak, gaps under 80 ms bridged."""
     w = max(1, min(rate // 50, len(a)))

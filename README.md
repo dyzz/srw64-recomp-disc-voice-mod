@@ -27,24 +27,24 @@ This repository holds only the generator and the voice maps (which segment of wh
 | Super Robot Taisen Complete Box (Disc 1) | SLPS-02070 | PS1 | .bin/.cue, .chd | 2,309 |
 | Super Robot Taisen MX | SLPS-25345 | PS2 | .iso | 2,097 |
 | Super Robot Taisen Alpha Gaiden (Rev 1) | SLPS-03148 | PS1 | .bin/.cue, .chd | 1,899 |
-| Super Robot Taisen Z | SLPS-25887, SLPS-73270 (The Best) | PS2 | .iso | 1,677 |
+| Super Robot Taisen Z | SLPS-25887, SLPS-73270 (The Best) | PS2 | .iso | 1,717 |
 | Shin Super Robot Taisen | SLPS-00550 | PS1 | .bin/.cue, .chd | 1,514 |
 | 4th Super Robot Taisen S (Rev 1) | SLPS-00196 | PS1 | .bin/.cue, .chd | 896 |
 | 2nd Super Robot Taisen Z Saisei-hen | ULJS-00460 | PSP | .iso (plus ffmpeg and the decryption tools) | 742 |
 | 2nd Super Robot Taisen Z Hakai-hen | ULJS-00379 | PSP | .iso (plus ffmpeg and the decryption tools) | 571 |
 | Super Robot Taisen NEO | RVL-RRWJ-JPN | Wii | .rvz | 291 |
 
-- The discs overlap a lot: all seventeen together make about 8,360 lines. Any one disc works on its own.
+- The discs overlap a lot: all seventeen together make about 8,400 lines. Any one disc works on its own.
 - PS1 voices are in XA sectors, so a PS1 image must keep 2352-byte sectors (.bin/.cue, .img, a raw .iso or .chd). A 2048-byte .iso has no voices; the tool says so.
 - Dolphin's .rvz (GameCube, and Wii, whose game partition RVZ keeps decrypted) is read directly (zstandard, in `requirements.txt`). A .chd needs MAME's `chdman` on the PATH. The two PSP discs' ATRAC3plus voices need `ffmpeg`.
-- Z's original release and its PlayStation 2 the Best reprint each have a map; the Best changed five of the clips, so their lines are only in the original's map.
+- Z's original release and its PlayStation 2 the Best reprint each have a map. About 960 clips are stored at 24000 Hz on the original and play 8% slow there; the Best fixed them, and the tool brings the original's to the right speed.
 - An image must be the release the map was made from. Every segment is checked against its checksum, and lines that differ are skipped.
 
 The original characters (Ark, Selain, Brad, Manami and the others) are on none of these discs. They have a separate AI voice package on [MARCHWIND 64's MOD page](https://srw64.dreamquest.club/en/mods/), which works together with the package built here.
 
 ## Coverage
 
-SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,365 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,208 (81%)**.
+SRW64 has 11,359 battle lines that can appear in play. All seventeen discs together voice **8,405 of them (74%)**. Adding the original characters' AI voice package (843 lines) brings it to **9,248 (81%)**.
 
 By series, with all seventeen discs (the 846 lines of the original characters are left out; the AI package covers 843 of them):
 
@@ -62,7 +62,7 @@ By series, with all seventeen discs (the 846 lines of the original characters ar
 | Dancouga: Super Beast Machine God | 543 | 516 | 95% |
 | Great Mazinger | 501 | 316 | 63% |
 | Six God Combination God Mars | 325 | 165 | 51% |
-| Getter Robo G | 256 | 141 | 55% |
+| Getter Robo G | 256 | 181 | 71% |
 | Generic soldiers and others | 251 | 189 | 75% |
 | Super Electromagnetic Robot Combattler V | 227 | 222 | 98% |
 | Getter Robo | 212 | 206 | 97% |
@@ -90,18 +90,18 @@ To get the most lines from the fewest discs, look for them in this order:
 | 3 | GC | 714 | 6,479 |
 | 4 | Alpha | 494 | 6,973 |
 | 5 | F | 286 | 7,259 |
-| 6 | Shin | 232 | 7,491 |
-| 7 | Alpha Gaiden | 211 | 7,702 |
-| 8 | Z | 183 | 7,885 |
-| 9 | 2nd Z Saisei-hen | 157 | 8,042 |
-| 10 | 3rd Alpha | 86 | 8,128 |
-| 11 | 2nd Z Hakai-hen | 75 | 8,203 |
-| 12 | MX | 64 | 8,267 |
-| 13 | Complete Box | 35 | 8,302 |
-| 14 | F Kanketsu-hen | 33 | 8,335 |
-| 15 | 2nd Alpha | 19 | 8,354 |
-| 16 | 4th S | 8 | 8,362 |
-| 17 | NEO | 3 | 8,365 |
+| 6 | Z | 251 | 7,510 |
+| 7 | Shin | 230 | 7,740 |
+| 8 | Alpha Gaiden | 185 | 7,925 |
+| 9 | 2nd Z Saisei-hen | 157 | 8,082 |
+| 10 | 3rd Alpha | 86 | 8,168 |
+| 11 | 2nd Z Hakai-hen | 75 | 8,243 |
+| 12 | MX | 64 | 8,307 |
+| 13 | Complete Box | 35 | 8,342 |
+| 14 | F Kanketsu-hen | 33 | 8,375 |
+| 15 | 2nd Alpha | 19 | 8,394 |
+| 16 | 4th S | 8 | 8,402 |
+| 17 | NEO | 3 | 8,405 |
 
 The first four already give about 83% of the total. The later ones mostly fill in a few characters: GC brings Layzner and Dancouga, Z brings Grendizer, Alpha Gaiden brings Wing, F brings Wing and Dunbine, 2nd Z Hakai-hen and Saisei-hen bring GodMars, MX adds Kiral, and NEO three GoShogun lines.
 

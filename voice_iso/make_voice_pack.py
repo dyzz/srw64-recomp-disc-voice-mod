@@ -183,6 +183,7 @@ class Source:
                 img.decrypt(name, kind)
         self.img, self.map, self.path = img, vmap, path
         self.format, self.audio, self.rate = a["format"], a["file"], a["rate"]
+        self.stored_rates = {int(k): v for k, v in a.get("stored_rates", {}).items()}   # clips kept at another rate than the rest
         if "groups" not in idx and "streams" not in idx and "people" not in idx and "owners" not in idx and self.format not in ("at3p", "spu", "dsp", "adx"):
             self.index = np.frombuffer(img.read(idx["file"], idx["offset"], idx["entries"] * 4), dtype="<u4").astype(np.int64)
         if self.format == "s16le":
@@ -254,6 +255,10 @@ class Source:
         return b"".join(self._xa_sectors(n))
 
     def segment(self, n: int) -> np.ndarray:
+        a = self.decoded(n)
+        return clips.resampled(a, self.stored_rates[n], self.rate) if n in self.stored_rates else a
+
+    def decoded(self, n: int) -> np.ndarray:
         if self.format == "s16le":
             return np.frombuffer(self.stored(n), dtype="<i2")
         if self.format == "at3p":
