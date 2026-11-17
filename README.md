@@ -116,7 +116,7 @@ python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).is
 
 Several discs make one package. When more than one disc has a line, the exact line wins over a near one, then the disc given first. All seventeen take a few minutes.
 
-The result is `out/srw64.battle-voices-disc-1.0.0.srw64mod` (about 170 MB for all seventeen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
+The result is `out/srw64.battle-voices-disc-1.1.0.srw64mod` (about 170 MB for all seventeen). Install it from the game's MOD page; it needs MARCHWIND 64 0.5.2 or later.
 
 Options:
 

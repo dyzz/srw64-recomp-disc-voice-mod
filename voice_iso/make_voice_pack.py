@@ -42,7 +42,7 @@ import psx  # noqa: E402
 SECTOR = 2048
 SCHEMA = "srw64.mod.v1"
 MOD_ID = "srw64.battle-voices-disc"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 GAME = ">=0.5.2"
 PSP_TOOLS = ROOT / "psp" / "bin"
 

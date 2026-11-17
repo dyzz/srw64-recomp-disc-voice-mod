@@ -116,7 +116,7 @@ python3 voice_iso/make_voice_pack.py "Super Robot Taisen Impact (Japan, Asia).is
 
 一次可以给多张盘，合成一个包。同一句几张盘都有时，优先用原句一致的那张，再按给出的先后。十七张要几分钟。
 
-结果在 `out/srw64.battle-voices-disc-1.0.0.srw64mod`，十七张约 170 MB。在游戏的 MOD 页安装这个文件即可，需要三月风64 0.5.2 以上。
+结果在 `out/srw64.battle-voices-disc-1.1.0.srw64mod`，十七张约 170 MB。在游戏的 MOD 页安装这个文件即可，需要三月风64 0.5.2 以上。
 
 常用参数：
 
